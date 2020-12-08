@@ -1,0 +1,23 @@
+{% extends "account/base_card.html" %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block head_title %}{% trans "Blog Sign Out" %}{% endblock %}
+
+{% block card-header %}
+<h3 class="h3 mb-3 font-weight-normal">{% trans "Blog Sign Out" %}</h3>
+{% endblock card-header %}
+
+{% block card-body %}
+<p>{% trans 'Are you sure you want to sign out from the blog?' %}</p>
+
+<form method="post" action="{% url 'account_logout' %}">
+  {% csrf_token %}
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+  {% endif %}
+  <button type="submit" class="btn btn btn-md btn-primary">{% trans 'Sign Out' %}</button>
+</form>
+
+
+{% endblock card-body %}

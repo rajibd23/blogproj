@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% load avatar_tags %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+<div class="container">
+    <div class="row p-4 m-4">
+    <main class="post blog-post col-lg-8">
+<div class="my-3 p-3 bg-white rounded box-shadow">
+    <h6 class="border-bottom border-gray pb-2 mb-0">
+        <div class="c">{{ user.first_name }} welcome to your profile page</div>
+    </h6>
+
+    <div class="media text-muted pt-3">
+        <div class="avatar">{% avatar user 45 class="img-circle img-responsive" %}</div>
+    </div>
+    <div class="media text-muted pt-3">
+        <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <strong class="d-block text-gray-dark">User Name:</strong>
+            {{ user.username }}
+        </p>
+    </div>
+    <div class="media text-muted pt-3">
+        <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <strong class="d-block text-gray-dark">First Name:</strong>
+            {{ user.first_name }}
+        </p>
+    </div>
+        <div class="media text-muted pt-3">
+        <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <strong class="d-block text-gray-dark">Last Name:</strong>
+            {{ user.last_name }}
+        </p>
+    </div>
+        <div class="media text-muted pt-3">
+        <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <strong class="d-block text-gray-dark">Email:</strong>
+            {{ user.email }}
+        </p>
+    </div>
+    <small class="d-block text-right mt-3">
+        <a href="#">Edit Profile</a>
+    </small>
+</div>
+    </main>
+    </div>
+</div>
+{% endif %}
+<style>
+div.a {
+  text-transform: uppercase;
+}
+
+div.b {
+  text-transform: lowercase;
+}
+
+div.c {
+  text-transform: capitalize;
+}
+</style>
+
+{% endblock content %}
