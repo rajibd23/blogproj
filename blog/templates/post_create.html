@@ -33,6 +33,18 @@
 </div>
 </div>
 
+<script>
+input[type=text, class='tagwidget form-control'] {
+    text-transform: lowercase;
+}
+$(#tagwidget form-control).on('blur', "input[class='tagwidget form-control']", function () {
+    $(this).val(function (_, val) {
+        return val.toLowerCase();
+    });
+});
+
+
+</script>
 		<!-- sample initialization -->
 		<script type="text/javascript" charset="utf-8">
 			$(function(){

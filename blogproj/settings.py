@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django.contrib.sites',
     'taggit',
+    #'django.contrib.markup',
+    'markdown_deux',
+    'knowledge',
     'django_reset',
     'allauth',
     'allauth.account',
@@ -257,3 +260,11 @@ MESSAGE_TAGS = {
 ACCOUNT_FORMS = {
 'signup': 'blog.forms.CustomSignupForm',
 }
+
+AVATAR_CACHE_ENABLED = False
+AVATAR_GRAVATAR_DEFAULT = 'wavatar'
+AVATAR_MAX_AVATARS_PER_USER = 2
+
+TAGGIT_CASE_INSENSITIVE = False
+TAGGIT_FORCE_LOWERCASE = True
+TAGGIT_TAGS_FROM_STRING = 'blog.views.comma_splitter'

@@ -1,4 +1,4 @@
-
+{% load avatar_tags i18n %}
 <header class="header">
 
   <!-- Main Navbar-->
@@ -11,7 +11,7 @@
         <div class="row d-flex justify-content-center">
           <div class="col-md-8">
             <form action="{% url 'search' %}" class="search-form">
-              {% csrf_token %}
+
               <div class="form-group">
                 <input type="search" name="q" id="search" placeholder="What are you looking for?">
                 <button type="submit" class="submit"><i class="icon-search-1"></i></button>
@@ -27,46 +27,49 @@
 
       <!-- Navbar Brand -->
       <div class="navbar-header d-flex align-items-center justify-content-between">
-        <!-- Navbar Brand --><a href="/" class="navbar-brand">ElderCare 360</a>
+        <!-- Navbar Brand --><a href="/" class="navbar-brand">ElderKonnect</a>
         <!-- Toggle Button-->
         <button type="button" data-toggle="collapse" data-target="#navbarcollapse" aria-controls="navbarcollapse" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"><span></span><span></span><span></span></button>
       </div>
       <!-- Navbar Menu -->
-      <div id="navbarcollapse" class="collapse navbar-collapse">
+      <li id="navbarcollapse" class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item"><a href="{% url 'home' %}" class="nav-link">Home</a>
           </li>
           <li class="nav-item"><a href="{% url 'post-list' %}" class="nav-link">Blog</a>
           </li>
 
-          {% if request.user.is_staff %}
+          {% if perms.post.add_post %}
           <li class="nav-item"><a href="{% url 'post-create' %}" class="nav-link">Create Post</a>
           </li>
           {% endif %}
           {% if request.user.is_authenticated %}
-          <li class="nav-item"><a href="{% url 'account_reset_password' %}" class="nav-link">Reset Password</a>
+          <li class="nav-item"><a href="{% url 'knowledge_index' %}" class="nav-link">Ask Question</a>
           </li>
           <li class="nav-item"><a href="{% url 'account_logout' %}" class="nav-link">Sign Out</a>
           </li>
+
           {% else %}
           <li class="nav-item"><a href="{% url 'account_login' %}" class="nav-link">Sign In</a>
           </li>
-          <li class="nav-item"><a href="{% url 'account_signup' %}" class="nav-link">Sign Up</a>
+          <li class="nav-item">
+            <a href="{% url 'account_signup' %}" class="nav-link">Sign Up</a>
           </li>
           {% endif %}
-          {% if user.is_authenticated %}
-          <li class="nav-item"><a href="{% url 'profile-home' request.user %}" class="nav-link ">
-          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
-            <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-            <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
-          </svg>
-            Profile
-          </a>
-          </li>
+
+          {% if request.user.is_authenticated %}
+        <li class="nav-item">
+          <a href="{% url 'profile-home' request.user %}" class="author d-flex align-items-center flex-wrap">
+            <div class="avatar">{% avatar user 30 %}</div>
+            </a>
+        </li>
           {% endif %}
         </ul>
-        <div class="navbar-text"><a href="#" class="search-btn"><i class="icon-search-1"></i></a></div>
+        <div class="navbar-text">
+          <a href="#" class="search-btn">
+            <i class="icon-search-1"></i>
+          </a>
+        </div>
         <!-- <ul class="langs navbar-text"><a href="#" class="active">EN</a><span>           </span><a href="#">ES</a></ul>-->
       </div>
 

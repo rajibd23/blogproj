@@ -3,6 +3,10 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.conf.urls import url
+from allauth.account import views as allauth_views
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
+
 #from allauth.account import views
 from post.views import (
     index,
@@ -26,35 +30,52 @@ from post.views import (
     PostDeleteView
 )
 from marketing.views import email_list_signup
-#from userprofiles2.views import ProfileHomeView, ProfileIdentite
-from blog.views import get_user_profile
+
+from blog.views import get_user_profile, user_profile_update, avatar_update
 
 urlpatterns = [
 
     path('admin/', admin.site.urls),
     # path('', index),
     path('', IndexView.as_view(), name='home'),
-    path('post_list/', post_list, name='post-list'),
-    #path('post_list/', PostListView.as_view(), name='post-list'),
-    path('search/', search, name='search'),
-    #path('search/', SearchView.as_view(), name='search'),
+    #path('post_list/', post_list, name='post-list'),
+    path('blog/', PostListView.as_view(), name='post-list'),
+    #path('search/', search, name='search'),
+    path('search/', SearchView.as_view(), name='search'),
     path('email-signup/', email_list_signup, name='email-list-signup'),
     #path('create/', post_create, name='post-create'),
     path('create/', PostCreateView.as_view(), name='post-create'),
     path('post/<pk>/', post_detail, name='post-detail'),
     #path('post/<pk>/', PostDetailView.as_view(), name='post-detail'),
-    path('post/<pk>/update/', post_update, name='post-update'),
-    #path('post/<pk>/update/', PostUpdateView.as_view(), name='post-update'),
+    #path('post/<pk>/update/', post_update, name='post-update'),
+    path('post/<pk>/update/', PostUpdateView.as_view(), name='post-update'),
     path('post/<pk>/delete/', post_delete, name='post-delete'),
 
     #path('post/<pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
     path('tinymce/', include('tinymce.urls')),
+
+    path(
+            'accounts/password/change/',
+            login_required(
+                allauth_views.PasswordChangeView.as_view(
+                    success_url=reverse_lazy('account_login')
+                )
+            ),
+            name='account_change_password'
+        ),
+
     path('accounts/', include('allauth.urls')),
+    path('knowledge/', include('knowledge.urls')),
     path('avatar/', include('avatar.urls')),
+
     path('profile/<username>', get_user_profile, name='profile-home'),
+    path('update_avatar/<username>', avatar_update, name='update-avatar'),
+    path('update_profile/<username>', user_profile_update, name='update-profile'),
+
     #path('identity/<pk>', ProfileIdentite.as_view(), name='profile-identity-form'),
     path('likepost/<pk>', likePost, name='likepost'),   # likepost view at /likepost
     path('tag/<tag_slug>', tagged_post_list, name='post_list_by_tag'),
+
 
     # path("signup/", signup, name="blog_signup"),
     # path("login/", login, name="blog_login"),

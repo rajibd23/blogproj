@@ -1,0 +1,61 @@
+{% load i18n %}
+<aside class="col-lg-4">
+<div class="widget latest-posts">
+  <div class="widget my-question">
+    <header>
+      <div class="bg-light p-2 rounded">
+        {% trans "Navigate" %}
+      </div>
+    </header>
+    <hr />
+    <ul class="p-1 m-1">
+      <li><a href="{% url "knowledge_ask" %}">{% trans "Ask Question" %}</a></li>
+      <li><a href="{% url "knowledge_index" %}">{% trans "Q&A Home" %}</a></li>
+    </ul>
+  </div>
+  <div class="widget my-question">
+
+    <header>
+      <div class="bg-light p-2 rounded">
+        {% trans "My Questions" %}
+      </div>
+    </header>
+    <hr />
+    {% if my_questions %}
+    <ul class="list-inline">
+      {% for question in my_questions %}
+
+      <li class="list-inline-item">
+        <a href="{{ question.get_absolute_url }}"><u>{{ question.title }}</u>
+        </a>
+      </li>
+
+      {% endfor %}
+
+    </ul>
+    {% else %}<em><small>{% trans "You have not asked any question" %}</small></em>
+    {% endif %}
+  </div>
+  <div class="widget tags">
+    <header>
+      <div class="bg-light p-2 rounded">
+        {% trans "Categories" %}
+      </div>
+    </header>
+    <hr />
+
+    <div class="widget tags">
+      <ul class="list-inline">
+        {% for category in categories %}
+
+        <li class="list-inline-item sm">
+          <a href="{% url 'knowledge_list_category' category.slug %}" class="tag">
+           <small>{{ category.title }}</small>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+  </div>
+</aside>

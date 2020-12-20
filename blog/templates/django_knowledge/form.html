@@ -1,0 +1,12 @@
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+<form {% if submit_url %}action="{{ submit_url }}"{% endif %} method="post" class="dk-form m-3">
+  {% csrf_token %}
+  {{ form|crispy }}
+
+  {# these are, for the most part, unused #}
+  {% for field in form.hidden_fields %}{{ field }}{% endfor %}
+  <input type="submit" value="{% trans submit_value %}" class="btn btn-primary btn-sm"> <small>&nbsp;{% trans submit_and %}</small>
+
+</form>

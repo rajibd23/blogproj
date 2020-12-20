@@ -1,69 +1,108 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load avatar_tags i18n %}
 {% block content %}
 
 <div class="container">
   <div class="row p-3 m-4">
-    <!-- Latest Posts -->
     <main class="posts-listing col-lg-8">
+
+      <!-- Latest Posts -->
+
       <div class="container">
+
         <div class="row">
           <!-- post -->
-          {% for post in paginated_queryset %}
+          {% for post in queryset %}
 
           <div class="post col-xl-6">
+
             <div class="shadow-lg p-3 mb-5 bg-white rounded">
-            <div class="post-thumbnail">
-              <a href="{{ post.get_absolute_url }}">
-                <img src="{{ post.thumbnail.url }}" alt="..." class="img-fluid">
-              </a>
-            </div>
-            <div class="post-details">
-              <div class="post-meta d-flex justify-content-between">
-                <!--<div class="date meta-last">20 May | 2016</div>-->
-                <div class="category">
-                  {% for cat in post.categories.all %}
 
-                  <a href="{{ post.get_absolute_url }}">{{ cat }}</a>
-
-                  {% endfor %}
-                </div>
+              <div class="post-thumbnail">
+                <a href="{{ post.get_absolute_url }}">
+                  <img src="{{ post.thumbnail.url }}" alt="..." class="img-fluid">
+                </a>
               </div>
+              <div class="post-details">
+                <div class="post-meta d-flex justify-content-between">
+                  <!--<div class="date meta-last">20 May | 2016</div>-->
+                  <div class="category">
+                    {% for cat in post.categories.all %}
 
-              <h3 class="h4"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3></a>
-              <p class="text-muted"><a href="{{ post.get_absolute_url }}">{{ post.overview }}</a></p>
-              <footer class="post-footer d-flex align-items-center">
-                <a href="#" class="author d-flex align-items-center flex-wrap">
-                  <div class="avatar"><img src="{{ post.author.profile_picture.url }}" alt="..." class="img-fluid"></div>
-                  <div class="title"><span>{{ post.author.user.username }}</span></div></a>
-                <div class="date"><i class="icon-clock"></i> {{ post.timestamp|timesince }} ago</div>
-                <div class="comments meta-last"><i class="icon-comment"></i>{{ post.comment_count }}</div>
-              </footer>
+                    <a href="{{ post.get_absolute_url }}">{{ cat }}</a>
 
+                    {% endfor %}
+                  </div>
+                </div>
+
+                <h3 class="h4"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3></a>
+                <p class="text-muted"><a href="{{ post.get_absolute_url }}">{{ post.overview|truncatewords:30 }} <small>READ MORE</small></a></p>
+                <footer class="post-footer d-flex align-items-center">
+                  <a href="#" class="author d-flex align-items-center flex-wrap">
+
+                    <div class="avatar">{% avatar post.user 45 %}</div>
+                    <div class="title"><span>{{ post.user.username }}</span></div></a>
+                  <div class="date"><i class="icon-clock"></i> {{ post.timestamp|timesince }} ago</div>
+                  <div class="comments meta-last"><i class="icon-comment"></i>{{ post.comment_count }}</div>
+                </footer>
+
+              </div>
             </div>
-            </div>
+
           </div>
 
           {% endfor %}
         </div>
+
         <!-- Pagination -->
+
+        {% if is_paginated %}
         <nav aria-label="Page navigation example">
           <ul class="pagination pagination-template d-flex justify-content-center">
-            {% if paginated_queryset.has_previous %}
-            <li class="page-item"><a href="?{{ page_request_var }}={{ paginated_queryset.previous_page_number }}" class="page-link"> <i class="fa fa-angle-left"></i></a></li>
+            {% if page_obj.has_previous %}
+            <li class="page-item"><a href="?{{ page_request_var }}={{ page_obj.previous_page_number }}" class="page-link"> <i class="fa fa-angle-left"></i></a></li>
             {% endif %}
-            <li class="page-item"><a href="?{{ page_request_var }}={{ paginated_queryset.number }}" class="page-link active">{{ paginated_queryset.number }}</a></li>
-
-            {% if paginated_queryset.has_next %}
-            <li class="page-item"><a href="?{{ page_request_var }}={{ paginated_queryset.next_page_number }}" class="page-link"> <i class="fa fa-angle-right"></i></a></li>
+            <li class="page-item"><a href="?{{ page_request_var }}={{ page_obj.number }}" class="page-link active">{{ page_obj.number }}</a></li>
+            {% if page_obj.has_next %}
+            <li class="page-item"><a href="?{{ page_request_var }}={{ page_obj.next_page_number }}" class="page-link"> <i class="fa fa-angle-right"></i></a></li>
             {% endif %}
           </ul>
         </nav>
+        {% else %}
+                <nav aria-label="Page navigation example">
+          <ul class="pagination pagination-template d-flex justify-content-center">
+            {% if queryset.has_previous %}
+            <li class="page-item">
+              <a href="?{{ page_request_var }}={{ queryset.previous_page_number }}" class="page-link">
+                <i class="fa fa-angle-left"></i>
+              </a>
+            </li>
+            {% endif %}
+            <li class="page-item">
+              <a href="?{{ page_request_var }}={{ queryset.number }}" class="page-link active">
+                {{ queryset.number }}
+              </a>
+            </li>
+            {% if queryset.has_next %}
+            <li class="page-item">
+              <a href="?{{ page_request_var }}={{ queryset.next_page_number }}" class="page-link">
+                <i class="fa fa-angle-right"></i>
+              </a>
+            </li>
+            {% endif %}
+          </ul>
+        </nav>
+
+        {% endif %}
       </div>
+
     </main>
-    {% include 'sidebar.html' with latest=latest category_count=category_count %}
+
+    {% include 'sidebar.html' with latest=latest category_count=category_count tag_frequency=tag_frequency %}
   </div>
 </div>
+
 
 {% endblock content %}
 

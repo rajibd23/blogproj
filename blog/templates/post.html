@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load avatar_tags i18n %}
 {% block content %}
 <style>
   .post-body img{
@@ -14,7 +15,7 @@
       <div class="container">
         <div class="post-single">
           <p style="text-align:justified;">
-            {% if request.user.username == post.author.user.username %}
+            {% if post.user.username == request.user.username %}
           <div class="row">
             <a href="{% url 'post-update' pk=post.pk %}">
               <img src="{% static '/img/system_update-24px.svg' %}" alt="..." class="img-fluid">
@@ -40,8 +41,8 @@
             </div>
             <h1>{{ post.title }}<a href="#"><i class="fa fa-bookmark-o"></i></a></h1>
             <div class="post-footer d-flex align-items-center flex-column flex-sm-row"><a href="#" class="author d-flex align-items-center flex-wrap">
-              <div class="avatar"><img src="{{ post.author.profile_picture.url }}" alt="..." class="img-fluid"></div>
-              <div class="title"><span>{{ post.author.user.username }}</span></div></a>
+              <div class="avatar">{% avatar post.user 45 %}</div>
+              <div class="title"><span>{{ post.user.username }}</span></div></a>
               <div class="d-flex align-items-center flex-wrap">
                 <div class="date"><i class="icon-clock"></i> {{ post.timestamp|timesince }} ago</div>
                 <div class="views"><i class="icon-eye"></i>{{ post.view_count }}</div>
@@ -101,8 +102,8 @@
                 <div class="comment-header d-flex justify-content-between">
                   <div class="user d-flex align-items-center">
                     <div class="image">
-                      {% if comment.user.author %}
-                      <img src="{{ comment.user.author.profile_picture.url }}" alt="..." class="img-fluid rounded-circle">
+                      {% if comment.user %}
+                      <div class="avatar">{% avatar post.user 45 %}</div>
                       {% else %}
                       <img src="{% static 'img/user.svg' %}" alt="..." class="img-fluid rounded-circle">
                       {% endif %}
@@ -133,7 +134,7 @@
 
                   </div>
                   <div class="form-group col-md-12">
-                    <button type="submit" class="btn btn-secondary">Submit Comment</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Submit Comment</button>
                   </div>
                 </div>
               </form>
@@ -146,7 +147,7 @@
         </div>
       </div>
     </main>
-    {% include 'sidebar.html' with latest=latest category_count=category_count %}
+    {% include 'sidebar.html' with latest=latest category_count=category_count tag_frequency=tag_frequency %}
   </div>
 </div>
 

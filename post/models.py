@@ -56,10 +56,11 @@ class Post(models.Model):
     #post_content = models.TextField()
     #comment_count = models.IntegerField(default=0)
     #view_count = models.IntegerField(default=0)
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    #author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     thumbnail = models.ImageField()
     categories = models.ManyToManyField(Category)
-    featured = models.BooleanField()
+    featured = models.BooleanField(null=True, blank=True)
     previous_post = models.ForeignKey('self', related_name="previous", on_delete=models.SET_NULL, null=True, blank=True )
     next_post = models.ForeignKey('self', related_name="next", on_delete=models.SET_NULL, null=True, blank=True )
     tags = TaggableManager(blank=True)
@@ -105,3 +106,4 @@ class Post(models.Model):
     @property
     def like_count(self):
         return Like.objects.filter(post=self).count()
+

@@ -1,0 +1,65 @@
+{% load i18n %}
+{% load avatar_tags i18n %}
+
+<div class="container">
+
+<ul class="question-list p-2">
+  {% for question in questions %}
+    <li>
+      <a href="{{ question.get_absolute_url }}">{{ question.title }}</a>
+      <span class="badge badge-light">
+      {% if not question.get_responses %}
+      <span class="dk-label dk-label-important">({% trans "no response" %})</span>
+      {% else %}
+      <span class="dk-label">
+        ({{ question.get_responses|length }}&nbsp;response)
+      </span>
+      {% endif %}&nbsp;
+      {% if question.accepted %}
+      <span class="dk-label dk-label-warning">({% trans "accepted" %})</span>&nbsp;
+      {% endif %}
+      {% if question.user.is_staff %}
+      <span class="dk-label dk-label-success">
+        ({% trans "staff" %})
+      </span>&nbsp;
+      {% endif %}
+
+        asked by {% avatar question.user 20 class="img-circle img-responsive" id="user_avatar" %} {{ question.get_name }}
+      </span>
+    </li>
+  {% endfor %}
+</ul>
+
+  {% if not questions.paginator.count %}
+    <p class="center"><em>{% trans "No results found.sdsds" %}</em></p>
+
+  {% else %}
+  <!-- Pagination code start -->
+    <hr/>
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+
+        <li class="page-item">
+       {% if questions.has_previous %}
+            <a href="?{{ page_request_var }}={{ questions.previous_page_number }}" class="page-link" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+
+       {% endif %}
+        </li>
+
+        <li class="page-item">
+            <a href="?{{ page_request_var }}={{ questions.number }}" class="page-link ">{{ questions.number }}</a>
+        </li>
+
+        <li class="page-item">
+        {% if questions.has_next %}
+      <a href="?{{ page_request_var }}={{ questions.next_page_number }}" class="page-link" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+
+       {% endif %}
+        </li>
+
+    </ul>
+ </nav>
+<!-- Pagination code ends -->
+  {% endif %}
+
+</div>

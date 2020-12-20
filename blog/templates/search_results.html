@@ -1,77 +1,90 @@
 {% extends 'base.html' %}
+{% load avatar_tags i18n %}
 {% load static %}
 
 {% block content %}
 
-<style>
-  .img-fluid img{
-    width: 100%;
-    height: 100%;
-  }
-  .search-result-item {
-    padding: 2px;
-    margin: 2px;
-    background-color: #ffffff;
-  }
-</style>
-
-<div class="container">
-    <div class="row p-3">
-        <!-- Latest Posts -->
-        <main class="post blog-post col-lg-10">
-                    <p class="search-results-count"><br><b>About {{ post_count }} results</b></p>
-                    {% for post in paginated_queryset %}
-                    <section class="search-result-item">
-                        <div class="shadow p-3 mb-5 bg-light rounded">
-                        <div class="search-result-item-body">
-                            <div class="row">
-                                <div class="col-sm-8">
-                                    <a class="image-link" href="{{ post.get_absolute_url }}">
-
-                                        <div class="image">
-                                            <img class="img-fluid" src="{{ post.thumbnail.url }}">
-                                        </div>
-
-                                    </a>
-
-                                    <h4 class="search-result-item-heading"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h4>
-                                    <p class="info">{{ post.timestamp|timesince }} ago</p>
-                                    <p class="description">{{ post.overview | safe }}</p>
-                                </div>
-                                <div class="col-sm-2 text-align-center">
-                                    <a class="btn btn-primary btn-info btn-sm" href="{{ post.get_absolute_url }}">Detail Post</a>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
-                    </section>
-
-                    {% endfor %}
-                    <div class="text-align-center">
-
-                        <!-- Pagination -->
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination pagination-template d-flex justify-content-center">
-                                {% if paginated_queryset.has_previous %}
-                                <li class="page-item"><a href="?{{ page_request_var }}={{ paginated_queryset.previous_page_number }}" class="page-link"> <i class="fa fa-angle-left"></i></a></li>
-                                {% endif %}
-                                <li class="page-item"><a href="?{{ page_request_var }}={{ paginated_queryset.number }}" class="page-link active">{{ paginated_queryset.number }}</a></li>
-
-                                {% if paginated_queryset.has_next %}
-                                <li class="page-item"><a href="?{{ page_request_var }}={{ paginated_queryset.next_page_number }}" class="page-link"> <i class="fa fa-angle-right"></i></a></li>
-                                {% endif %}
-                            </ul>
-                        </nav>
-
-                    </div>
+<section class="featured-posts">
+  <div class="container">
+          <p class="search-results-count"><br><b>Found {{ queryset|length }} matching results</b></p>
 
 
+    <!-- Post-->
+    {% for obj in queryset %}
 
-</main>
+    <div class="shadow p-3 mb-5 bg-light rounded">
+      <div class="row h-25 align-items-stretch">
 
 
+        <div class="image col-lg-5 col-sm-2"><img src="{{ obj.thumbnail.url }}" alt="{{ obj.title }}" ></div>
 
+        <div class="text col-lg-7">
+          <div class="text-inner d-flex align-items-center">
+            <div class="content">
+              <header class="post-header">
+                <a href="{{ obj.get_absolute_url }}">
+                  <h2 class="h4">{{ obj.title }}</h2>
+                </a>
+                <div class="category">
+                  {% for cat in obj.categories.all %}
+                  <a href="{{ obj.get_absolute_url }}">{{ cat }}</a>
+                  {% endfor %}
+                </div>
+              </header>
+              <a href="{{ obj.get_absolute_url }}">
+                <p>{{ obj.overview|truncatewords:20 }}...READ MORE</p>
+              </a>
+              <footer class="post-footer d-flex align-items-center">
+                <a href="#" class="author d-flex align-items-center flex-wrap">
+                  <div class="avatar">{% avatar obj.user 45 %}</div>
+                  <div class="title"><span>{{ obj.user }}</span>
+                  </div>
+                </a>
+                <div class="date"><i class="icon-clock"></i> {{ obj.timestamp|timesince }} ago</div>
+                <div class="comments"><i class="icon-comment"></i>{{ obj.comment_count }}</div>
+              </footer>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% endfor %}
+</ul>
+    <div class="text-align-center">
+
+    <!-- Pagination -->
+
+           {% if is_paginated %}
+        <nav aria-label="Page navigation example">
+          <ul class="pagination pagination-template d-flex justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item"><a href="?{{ page_request_var }}={{ page_obj.previous_page_number }}" class="page-link"> <i class="fa fa-angle-left"></i></a></li>
+            {% endif %}
+            <li class="page-item"><a href="?{{ page_request_var }}={{ page_obj.number }}" class="page-link active">{{ page_obj.number }}</a></li>
+            {% if page_obj.has_next %}
+            <li class="page-item"><a href="?{{ page_request_var }}={{ page_obj.next_page_number }}" class="page-link"> <i class="fa fa-angle-right"></i></a></li>
+            {% endif %}
+          </ul>
+        </nav>
+        {% else %}
+                <nav aria-label="Page navigation example">
+          <ul class="pagination pagination-template d-flex justify-content-center">
+            {% if queryset.has_previous %}
+            <li class="page-item"><a href="?{{ page_request_var }}={{ queryset.previous_page_number }}" class="page-link"> <i class="fa fa-angle-left"></i></a></li>
+            {% endif %}
+            <li class="page-item"><a href="?{{ page_request_var }}={{ queryset.number }}" class="page-link active">{{ queryset.number }}</a></li>
+            {% if queryset.has_next %}
+            <li class="page-item"><a href="?{{ page_request_var }}={{ queryset.next_page_number }}" class="page-link"> <i class="fa fa-angle-right"></i></a></li>
+            {% endif %}
+          </ul>
+        </nav>
+
+        {% endif %}
 
 </div>
-</div>
+
+  </div>
+</section>
+
 {% endblock %}

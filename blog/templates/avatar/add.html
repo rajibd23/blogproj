@@ -1,0 +1,26 @@
+{% extends "avatar/base_card.html" %}
+{% load i18n avatar_tags %}
+{% block card-header %}
+
+
+    <p>{% trans "Your current avatar: " %}</p>
+{% endblock card-header %}
+{% block card-body %}
+<div class="media text-muted pt-2">
+                    <p class="media-body pb-3 mb-2 small lh-125 border-bottom border-gray">
+    {% avatar user %}
+                    </p>
+</div>
+    {% if not avatars %}
+        <p>{% trans "You haven't uploaded an avatar yet. Please upload one now." %}</p>
+    {% endif %}
+    <form enctype="multipart/form-data" method="POST" action="{% url 'avatar_add' %}">
+        <input type="hidden" name="next" value="{% url 'profile-home' request.user %}" />
+        <div class="media text-muted pt-2">
+                    <p class="media-body pb-3 mb-2 small lh-125 border-bottom border-gray">
+        {{ upload_avatar_form.as_table }}
+                    </p>
+        </div>
+        <p>{% csrf_token %}<input class="btn btn btn-md btn-primary" type="submit" value="{% trans "Upload New Image" %}" /></p>
+    </form>
+{% endblock %}

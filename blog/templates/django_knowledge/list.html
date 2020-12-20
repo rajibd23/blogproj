@@ -1,0 +1,44 @@
+{% extends 'django_knowledge/inner.html' %}
+{% load knowledge_tags %}
+{% load i18n %}
+
+
+{% block title %}Showing {{ questions.paginator.count }} results{% if search %} for {{ search }}{% endif %}{% if category %} in {{ category.title }} category{% endif %}{% endblock title %}
+
+{% block knowledge_widgets %}
+<div class="container">
+  <div class="row p-3 m-4">
+    <main class="posts-listing col-lg-8">
+      <div class="container">
+<div class="dk-widget">
+  {# dunno how to do translation on this nasty block... #}
+  <br/>
+ <h6 class="h6">Showing {{ paginator.count }} search results -- Page {{ questions.number }} of {{ questions.paginator.num_pages }}</h6>
+  <hr />
+  {% include 'django_knowledge/question_list.html' with questions=questions %}
+  <hr class="light"/>
+  {% if not questions.paginator.count %}
+    <p class="center"><em>{% trans "No results found." %}</em></p>
+
+  {% endif %}
+
+</div>
+<br/>
+{% if form and questions.paginator.count < 10 %}
+  <div class="dk-widget">
+    <div class="shadow-lg p-2 m-2 mb-2 bg-white rounded">
+    <h5 class="h5 p-2">{% trans "Ask a Question" %}</h5>
+    <hr />
+
+    {% url "knowledge_ask" as form_url %}
+
+    {% include "django_knowledge/form.html" with submit_value="Submit this support request" submit_and="and we'll get back to you as soon as possible." submit_url=form_url %}
+  </div>
+  </div>
+{% endif %}
+      </div>
+    </main>
+    {% include "django_knowledge/sidebar.html" %}
+  </div>
+</div>
+{% endblock knowledge_widgets %}

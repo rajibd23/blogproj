@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% load avatar_tags %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container">
+    <div class="col-xl-10 p-5 m-3">
+        <div class="row m-3"></div>
+        <div class="shadow-lg p-3 mb-5 bg-light rounded">
+            <div class="c"><h6>welcome to edit profile page</h6></div>
+
+            {% if ind == 1 %}
+                {% avatar user 45 class="img-circle img-responsive" %}
+                {% crispy avatar_form %}
+            {% elif ind == 2 %}
+                {% crispy profile_form %}
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+<style>
+
+
+div.a {
+  text-transform: uppercase;
+}
+
+div.b {
+  text-transform: lowercase;
+}
+
+div.c {
+  text-transform: capitalize;
+}
+</style>
+
+{% endblock content %}
