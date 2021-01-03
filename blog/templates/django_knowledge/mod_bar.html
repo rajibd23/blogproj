@@ -1,12 +1,17 @@
 
 
-{% if request.user.is_staff %}
+{% if request.user.is_authenticated %}
   <div class="dk-mod-bar">
+    <div class="row">
     {% for mod in allowed_mods %}
-    	<form method="post" action="{% url "knowledge_moderate" type node.id mod %}">
+    	<form method="post" action="{% url 'knowledge_moderate' type node.id mod %}">
       {% csrf_token %}
-      <input class="dk-label{% if mod in node.states %} dk-label-warning{% endif %}" type="submit" value="{{ mod }}" />
-      </form>
+      <!-- <input class="dk-label{% if mod in node.states %} dk-label-warning{% endif %}" type="submit" value="{{ mod }}" /> -->
+      <input class="btn btn-secondary{% if mod in node.states %} btn-warning{% endif %} btn-sm" type="submit" value="{{ mod }}" />
+        &nbsp;
+        </form>
+
     {% endfor %}
+      </div>
   </div>
 {% endif %}

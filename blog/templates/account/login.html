@@ -1,21 +1,31 @@
 {% extends "account/base_card.html" %}
 {% load crispy_forms_tags %}
 {% load i18n %}
+{% load static %}
 {% load account socialaccount %}
 
-{% block head_title %}{% trans "Blog Sign In" %}{% endblock %}
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+{% block side-block %}
 
-
+<div class="container" style="background-image:url('/static/img/blog-3.jpg');width:100%; height: 20rem;">
+      <h5 class="justify-content-center text-white">
+        <p class="text-wrap"><em>"Join a community who cares about their Elders stay in their home safely and happily..."</em>
+        </p>
+      </h5>
+</div>
+{% endblock side-block%}
 {% block card-header %}
-  <h3 class="h3 mb-3 font-weight-normal">{% trans "Please Sign In" %}</h3>
+  <h5 class="h5 font-weight-normal m-0">{% trans "Please Sign In" %}</h5>
 {% endblock %}
 
 {% get_providers as socialaccount_providers %}
 
 {% block card-body %}
+
+
 {% if socialaccount_providers %}
 <p>{% blocktrans with site.name as site_name %}Please sign in with one
-of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
+of your existing third party accounts. Or, <a href="{{ signup_url }}">Sign up</a>
 for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
 
 <div class="socialaccount_ballot">
@@ -31,20 +41,22 @@ for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
 {% include "socialaccount/snippets/login_extra.html" %}
 
 {% else %}
-<p>{% blocktrans %}If you have not created an account yet, then please
-<a href="{{ signup_url }}">Blog sign up</a> first.{% endblocktrans %}</p>
+<p style="font-family: Helvetica Neue, Helvetica, 'Arial', sans-serif; font-size: 12px;">{% blocktrans %}If you have not created an account yet, then please
+    <a href="{{ signup_url }}"><button class="btn btn-primary btn-sm">Sign up</button></a>{% endblocktrans %}</p>
 {% endif %}
 
 <form class="form-signin" method="POST" action="{% url 'account_login' %}">
   {% csrf_token %}
+
   {{ form | crispy }}
+
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
   <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
-  <button class="btn btn-primary btn-md" type="submit">{% trans "Blog Sign In" %}</button>
+  <button class="btn btn-primary btn-sm" type="submit">{% trans "Sign In" %}</button>
 
 
 </form>
-{% endblock card-body %}
 
+{% endblock card-body %}

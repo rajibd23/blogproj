@@ -2,15 +2,16 @@
 <!DOCTYPE html>
 <html lang="en">
 {% include 'head.html' %}
-<body>
+  <body>
+    <div class="container-fluid p-0">
+      {% include 'header.html' %}
 
-  {% include 'header.html' %}
+      {% block content %}
 
-  {% block content %}
-
-  {% endblock content %}
-  {% include 'footer.html' %}
-  {% include 'scripts.html' %}
-</body>
+      {% endblock content %}
+      {% include 'footer.html' %}
+      {% include 'scripts.html' %}
+    </div>
+  </body>
 
 </html>

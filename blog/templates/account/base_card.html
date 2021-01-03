@@ -1,24 +1,29 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 
-<div class="container">
-    <div class="row justify-content-center p-5 m-5">
-        <div class="col-lg-8 col-md-10 col-sm-12 ">
-            <div class="shadow mb-5 bg-white rounded">
+<div class="row justify-content-center m-0" style="padding-top:95px;">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <div class="shadow bg-white rounded" >
+        {% block side-block %}{% endblock %}
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <div class="shadow-sm mb-5 bg-white rounded" >
             <div class="card">
-                <div class="card-header">
-                     <h1 class="h3 mb-3 font-weight-normal">
+                <div class="card-header" style="font-family: Helvetica Neue, Helvetica, 'Arial', sans-serif; font-size: 12px;">
+
                     {% block card-header %}{% endblock %}
-                     </h1>
+
                 </div>
-                <div class="card-body">
+                <div class="card-body" style="font-family: Helvetica Neue, Helvetica, 'Arial', sans-serif; font-size: 12px;">
+
                     {% block card-body %}{% endblock %}
+
                 </div>
                 <div class="card-footer text-muted text-center">
                     {% block card-footer %}{% endblock %}
                 </div>
-           </div>
             </div>
         </div>
     </div>

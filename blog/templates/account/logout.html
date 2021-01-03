@@ -5,7 +5,7 @@
 {% block head_title %}{% trans "Blog Sign Out" %}{% endblock %}
 
 {% block card-header %}
-<h3 class="h3 mb-3 font-weight-normal">{% trans "Blog Sign Out" %}</h3>
+<h3 class="h3 mb-3 font-weight-normal">{% trans "Sign Out" %}</h3>
 {% endblock card-header %}
 
 {% block card-body %}
@@ -16,7 +16,7 @@
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
   {% endif %}
-  <button type="submit" class="btn btn btn-md btn-primary">{% trans 'Sign Out' %}</button>
+  <button type="submit" class="btn btn btn-sm btn-primary">{% trans 'Sign Out' %}</button>
 </form>
 
 

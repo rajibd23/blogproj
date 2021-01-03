@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'avatar',
+    'django_extensions',
     # 'userprofiles2',
     #'allauth.socialaccount.providers.google',
     #'allauth.socialaccount.providers.facebook',
@@ -164,18 +165,15 @@ TINYMCE_DEFAULT_CONFIG = {
             visualchars code fullscreen autolink lists  charmap print  hr
             anchor pagebreak
             ''',
-    'toolbar1': '''
-            fullscreen preview bold italic underline | fontselect,
-            fontsizeselect  | forecolor backcolor | alignleft alignright |
-            aligncenter alignjustify | indent outdent | bullist numlist table |
-            | link image media | codesample |
-            ''',
+    'toolbar1': 'formatselect | bold italic underline | alignleft aligncenter alignright alignjustify '
+                '| bullist numlist | outdent indent | table | link image media | codesample | preview code',
+    'contextmenu': 'formats | link image',
     'toolbar2': '''
             visualblocks visualchars |
-            charmap hr pagebreak nonbreaking anchor |  code |
+            charmap hr pagebreak nonbreaking anchor |
             ''',
     'contextmenu': 'formats | link image',
-    'menubar': True,
+    'menubar': False,
     'statusbar': True,
 }
 
@@ -195,8 +193,11 @@ SITE_ID = 1
 LOGIN_REDIRECT_URL = 'home'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
 # Use email as the primary identifier
+#ACCOUNT_SIGNUP_FORM_CLASS = 'blog.forms.CustomSignupForm'
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+#ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS=7
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
@@ -268,3 +269,5 @@ AVATAR_MAX_AVATARS_PER_USER = 2
 TAGGIT_CASE_INSENSITIVE = False
 TAGGIT_FORCE_LOWERCASE = True
 TAGGIT_TAGS_FROM_STRING = 'blog.views.comma_splitter'
+
+KNOWLEDGE_AUTO_PUBLICIZE = True

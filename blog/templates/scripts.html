@@ -1,14 +1,69 @@
 {% load static %}
 <!-- JavaScript files-->
 <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="{% static 'vendor/popper.js/umd/popper.min.js' %}"> </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 <script src="{% static 'vendor/jquery.cookie/jquery.cookie.js' %}"> </script>
 <script src="{% static 'vendor/@fancyapps/fancybox/jquery.fancybox.min.js' %}"></script>
 <script src="{% static 'js/front.js' %}"></script>
 <script src="{% static 'js/tagsinput.js' %}"></script>
 <script src="{% static 'js/TextboxList.js' %}"></script>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 
-<script src='{% static "js/highlight.pack.js" %}'></script>
+<script src="{% static 'js/highlight.pack.js' %}"></script>
 <script>hljs.initHighlightingOnLoad();</script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+    /*
+        On submiting the form, send the POST ajax
+        request to server and after successfull submission
+        display the object.
+    */
+$(document).ready(function(){
+    $("#like-form").on('submit',function (e) {
+        console.log("inside submit here")
+        // preventing from page reload and default actions
+        e.preventDefault();
+        // serialize the data for sending the form data.
+        var serializedData = $(this).serialize();
+        like();
+        )};
+        // make POST ajax call
+        function like(){
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                type: 'POST',
+                url: "{% url 'likemypost' %}",
+                data: serializedData,
+                success: function (response) {
+                    // on successfull creating object
+                    console.log("inside success here")
+                    // 1. clear the form.
+                    $("#like-form").trigger('reset');
+                    // 2. focus to nickname input
+                    $("#id_like_btn").focus();
+
+                    // display the newly friend to table.
+                    var instance = JSON.parse(response["instance"]);
+                    var fields = instance[0]["fields"];
+                    $("#like_count_span").text(${fields["like_count"]})
+                        alert(response["responseJSON"]["status"]);
+                },
+                error: function (response) {
+                    // alert the error if any error occured
+                    alert(response["responseJSON"]["error"]);
+                }
+
+        });
+});
+
+</script>
 

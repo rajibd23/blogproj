@@ -5,40 +5,53 @@
 
 {% block title %}Showing {{ questions.paginator.count }} results{% if search %} for {{ search }}{% endif %}{% if category %} in {{ category.title }} category{% endif %}{% endblock title %}
 
-{% block knowledge_widgets %}
-<div class="container">
-  <div class="row p-3 m-4">
-    <main class="posts-listing col-lg-8">
-      <div class="container">
-<div class="dk-widget">
-  {# dunno how to do translation on this nasty block... #}
-  <br/>
- <h6 class="h6">Showing {{ paginator.count }} search results -- Page {{ questions.number }} of {{ questions.paginator.num_pages }}</h6>
-  <hr />
-  {% include 'django_knowledge/question_list.html' with questions=questions %}
-  <hr class="light"/>
-  {% if not questions.paginator.count %}
-    <p class="center"><em>{% trans "No results found." %}</em></p>
-
-  {% endif %}
-
+{% block knowledge_inner %}
+<section class="intro m-5">
+    <div class="container align-items-center p-3 m-1">
+        <div class="row">
+            <div class="col-md-8 col-sm-6">
+            <div class="dk-content">
+                {% include "django_knowledge/welcome.html" %}
+                <div class="dk-widget">
+                    <div class="dk-search">
+                        <form action="{% if category %}{% url 'knowledge_list_category' category.slug %}{% else %}{% url 'knowledge_list' %}{% endif %}" method="get">
+                            <span class="input-group-text">
+                              <input class="form-control" {% if search %} value="{{ search|force_escape }}" {% else %} placeholder="{% trans 'Start typing your question here.' %}"{% endif %} type="text" name="title"/>
+                &nbsp;&nbsp;            <input value="Search" type="submit" class="btn btn-primary btn-sm" />
+                            </span>
+                        </form>
+                        <div class="clear"></div>
+                    </div>
+                {# dunno how to do translation on this nasty block... #}
+                <br/>
+                <h6 class="h6">Showing {{ questions.paginator.count }} search results -- Page {{ questions.number }} of {{ questions.paginator.num_pages }}</h6>
+                <hr />
+                {% include 'django_knowledge/question_list.html' with questions=questions %}
+                <hr class="light"/>
+                {% if not questions.paginator.count %}
+                    <p class="center"><em>{% trans "No results found." %}</em></p>
+                {% endif %}
+                </div>
+            </div>
+            <br/>
+            {% if form and questions.paginator.count < 10 %}
+                <div class="dk-widget">
+                    <h5 class="h5 p-2">{% trans "Ask a Question" %}</h5>
+                <hr />
+                {% url "knowledge_ask" as form_url %}
+                {% include "django_knowledge/form.html" with submit_value="Submit this support request" submit_and="and we'll get back to you as soon as possible." submit_url=form_url %}
+                </div>
+            {% endif %}
+            </div>
+       <div class="col-md-4 col-sm-3">
+            <div class="dk-sidebar">
+                <div class="inner">
+                    {% include "django_knowledge/sidebar.html" %}
+                </div>
+            </div>
+        <div class="clear"></div>
+       </div>
+    </div>
 </div>
-<br/>
-{% if form and questions.paginator.count < 10 %}
-  <div class="dk-widget">
-    <div class="shadow-lg p-2 m-2 mb-2 bg-white rounded">
-    <h5 class="h5 p-2">{% trans "Ask a Question" %}</h5>
-    <hr />
-
-    {% url "knowledge_ask" as form_url %}
-
-    {% include "django_knowledge/form.html" with submit_value="Submit this support request" submit_and="and we'll get back to you as soon as possible." submit_url=form_url %}
-  </div>
-  </div>
-{% endif %}
-      </div>
-    </main>
-    {% include "django_knowledge/sidebar.html" %}
-  </div>
-</div>
-{% endblock knowledge_widgets %}
+</section>
+{% endblock knowledge_inner %}

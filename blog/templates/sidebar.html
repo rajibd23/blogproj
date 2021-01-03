@@ -2,7 +2,7 @@
     <!-- Widget [Search Bar Widget]-->
     <div class="widget search">
     <header>
-        <h3 class="h6">Search the blog</h3>
+        <h6 class="h6">Search the blog</h6>
     </header>
     <form action="{% url 'search' %}" class="search-form">
 
@@ -15,7 +15,7 @@
     <!-- Widget [Latest Posts Widget]        -->
     <div class="widget latest-posts">
     <header>
-        <h3 class="h6">Latest Posts</h3>
+        <h6 class="h6">Latest Posts</h6>
     </header>
     <div class="blog-posts">
         {% for post in latest %}
@@ -35,7 +35,7 @@
                  <!-- Widget [Tags Cloud Widget]-->
           <div class="widget tags">
             <header>
-              <h3 class="h6">Trending Tags</h3>
+              <h6 class="h6">Trending Tags</h6>
             </header>
 
               <ul class="list-inline">
@@ -55,7 +55,7 @@
     <!-- Widget [Categories Widget]-->
     <div class="widget categories">
     <header>
-        <h3 class="h6">Categories</h3>
+        <h6 class="h6">Categories</h6>
     </header>
     {% for cat in category_count %}
     <div class="item d-flex justify-content-between">

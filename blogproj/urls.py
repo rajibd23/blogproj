@@ -19,6 +19,7 @@ from post.views import (
     post_delete,
     IndexView,
     likePost,
+    likeMyPost,
    # login,
    # logout,
    # signup,
@@ -32,6 +33,8 @@ from post.views import (
 from marketing.views import email_list_signup
 
 from blog.views import get_user_profile, user_profile_update, avatar_update
+from post.feeds import LatestPostsFeed, AtomSiteNewsFeed
+
 
 urlpatterns = [
 
@@ -74,8 +77,11 @@ urlpatterns = [
 
     #path('identity/<pk>', ProfileIdentite.as_view(), name='profile-identity-form'),
     path('likepost/<pk>', likePost, name='likepost'),   # likepost view at /likepost
+    path('post/ajax/like', likeMyPost, name='likemypost'),
     path('tag/<tag_slug>', tagged_post_list, name='post_list_by_tag'),
 
+    path("feed/rss", LatestPostsFeed(), name="post_feed"),
+    path("feed/atom", AtomSiteNewsFeed()),
 
     # path("signup/", signup, name="blog_signup"),
     # path("login/", login, name="blog_login"),

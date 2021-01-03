@@ -3,13 +3,23 @@
 {% load i18n %}
 
 {% block head_title %}{% trans "Signup" %}{% endblock %}
+{% block side-block %}
+    <div class="col" style="background-image:url('/static/img/blog-2.jpg'); width:100%; height: 25rem;">
+      <h1 class="justify-content-center p-3 m-0 text-white">
+        <p class="text-wrap"><em>"Join a community who cares about their Elders stay in their home safely and happily..."</em>
+        </p>
+      </h1>
+    </div>
+{% endblock side-block%}
 
 {% block card-header %}
-<h3 class="h3 mb-3 font-weight-normal">{% trans "Blog Sign Up" %}</h3>
+<h5 class="h5 m-0 font-weight-normal">{% trans "Blog Sign Up" %}</h5>
 {% endblock card-header %}
 
   {% block card-body %}
-<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}"> Blog sign in</a>.{% endblocktrans %}</p>
+<p style="font-family: Helvetica Neue, Helvetica, 'Arial', sans-serif; font-size: 12px;">{% blocktrans %}Already have an account? Then please
+  <a href="{{ login_url }}"><button type="button" class="btn btn-primary btn-sm">Sign in</button>
+  </a>{% endblocktrans %}</p>
 
 <form class="form-signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
   {% csrf_token %}
@@ -17,7 +27,7 @@
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
-  <button type="submit" class="btn btn btn-md btn-primary">{% trans "Sign Up" %} &raquo;</button>
+  <button type="submit" class="btn btn btn-sm btn-primary">{% trans "Sign Up" %} &raquo;</button>
 </form>
 
 {% endblock card-body %}

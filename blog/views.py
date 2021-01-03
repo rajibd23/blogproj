@@ -2,12 +2,13 @@ from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.contrib.auth.models import User
 from avatar.models import Avatar
 from avatar.views import _get_avatars
-from .forms import CustomSignupForm, ProfileForm, AvatarForm
+from .forms import ProfileForm, AvatarForm, CustomSignupForm
 # Create your views here.
 
 
 
 def get_user_profile(request, username):
+
     user = User.objects.get(username=username)
     avatar = _get_avatars(user)
     print(avatar[0])

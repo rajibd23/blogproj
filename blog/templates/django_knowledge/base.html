@@ -1,27 +1,10 @@
 {% extends 'base.html' %}
 
-{% block knowledge_widget %}
-
+{% block content %}
 <div class="container">
-    <div class="row justify-content-center p-5 m-5">
-        <div class="col-lg-8 col-md-10 col-sm-12 ">
-            <div class="shadow mb-5 bg-white rounded">
-            <div class="card">
-                <div class="card-header">
-                     <h1 class="h3 mb-3 font-weight-normal">
-                    {% block widget-header %}{% endblock %}
-                     </h1>
-                </div>
-                <div class="card-body">
-                    {% block widget-body %}{% endblock %}
-                </div>
-                <div class="card-footer text-muted text-center">
-                    {% block widget-footer %}{% endblock %}
-                </div>
-           </div>
-            </div>
-        </div>
-    </div>
+<div class="wrapper">
+    {% block knowledge_inner %}
+    {% endblock knowledge_inner %}
 </div>
-
-{% endblock knowledge_widget %}
+    </div>
+{% endblock content %}

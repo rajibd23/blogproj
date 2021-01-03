@@ -8,6 +8,7 @@ from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.views.generic import View, ListView, DetailView, CreateView, UpdateView, DeleteView
 #from allauth.account.views import LoginView, LogoutView, SignupForm, email
 from django.http import JsonResponse
+from django.core import serializers
 from collections import defaultdict, Counter
 
 from .models import Post, Author, PostView, Like
@@ -451,6 +452,28 @@ def likePost(request, pk):
 
     else:
         return HttpResponseRedirect(reverse('post-detail', args=[str(pk)]))
+
+def likeMyPost(request):
+
+    if request.is_ajax and request.method == 'POST':
+        try:
+
+            likedpost = get_object_or_404(Post, id=request.pk) #getting the liked posts
+            m = Like(user=request.user, post=likedpost) # Creating Like Object
+            instance = m.save()  # saving it to store in database
+            # serialize in new friend object in json
+            ser_instance = serializers.serialize('json', [instance, ])
+            print("Inside json response")
+            # send to client side.
+            return JsonResponse({"instance": ser_instance}, status=200)
+        except:
+            print("Inside json error")
+            # some form errors occured.
+            return JsonResponse({"error": "There was some error"}, status=400)
+    else:
+        print("Inside json bottom error")
+        # some error occured
+        return JsonResponse({"error": "Some error"}, status=400)
 
 
 class PostCreateView(CreateView):

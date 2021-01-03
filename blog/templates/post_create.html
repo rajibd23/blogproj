@@ -4,23 +4,6 @@
 
 {% block content %}
 
-		<style type="text/css" media="screen">
-			.form_tags { margin-bottom: 10px; }
-
-			/* Setting widget width example */
-			.textboxlist { width: 400px; }
-
-			/* Preloader for autocomplete */
-			.textboxlist-loading { background: url('images/spinner.gif') no-repeat 380px center; }
-
-			/* Autocomplete results styling */
-			.form_friends .textboxlist-autocomplete-result { overflow: hidden; zoom: 1; }
-			.form_friends .textboxlist-autocomplete-result img { float: left; padding-right: 10px; }
-
-			.note { color: #666; font-size: 90%; }
-			#footer { margin: 50px; text-align: center; }
-		</style>
-
 <div class="container">
 <div class="col-xl-10 p-5 m-3">
     <div class="row m-3"></div>
@@ -32,28 +15,5 @@
                 </div>
 </div>
 </div>
-
-<script>
-input[type=text, class='tagwidget form-control'] {
-    text-transform: lowercase;
-}
-$(#tagwidget form-control).on('blur', "input[class='tagwidget form-control']", function () {
-    $(this).val(function (_, val) {
-        return val.toLowerCase();
-    });
-});
-
-
-</script>
-		<!-- sample initialization -->
-		<script type="text/javascript" charset="utf-8">
-			$(function(){
-
-				// With custom adding keys
-
-				var t2 = $('#id_tags').textboxlist({bitsOptions:{editable:{addKeys: [188]}}});
-
-			});
-		</script>
 
 {% endblock content %}

@@ -5,22 +5,47 @@
 
 {% block head_title %}{% trans "Support" %}{% endblock %}
 
-{% block knowledge_widgets %}
-<div class="container">
-  <div class="row p-3 m-4">
-    <main class="posts-listing col-lg-8">
+{% block knowledge_inner %}
+<section class="intro m-5">
 
-        <div class="dk-widget">
-           <div class="shadow-lg p-2 mb-2 bg-white rounded">
-          <h5 class="h5 p-2 mb-3 font-weight-normal">{% blocktrans with count=questions|length %}Top {{ count }} Questions{% endblocktrans %}</h5>
+    <div class="container align-items-center p-3 m-1">
+    <div class="row">
+      <div class="col-md-8 col-sm-6">
+      <div class="dk-content">
+        {% include "django_knowledge/welcome.html" %}
 
-            <hr />
-            {% include 'django_knowledge/question_list.html' %}
-           </div>
-           </div>
+            <div class="dk-widget">
+              <div class="dk-search">
+                <form action="{% if category %}{% url 'knowledge_list_category' category.slug %}{% else %}{% url 'knowledge_list' %}{% endif %}" method="get">
+                <span class="input-group-text">
+                    <input class="form-control" {% if search %} value="{{ search|force_escape }}" {% else %} placeholder="{% trans 'Start typing your question here.' %}"{% endif %} type="text" name="title"/>
+                &nbsp;&nbsp;  <input value="Search" type="submit" class="btn btn-primary btn-sm" />
+                </span>
+                </form>
+                <div class="clear"></div>
+              </div>
+                <hr/>
+                <span class="">
+                <h6 class="h6 font-weight-bold p-3 m-0">
+                    {% blocktrans with count=questions|length %}Top {{ count }} Questions{% endblocktrans %}
+                </h6>
+                {% include 'django_knowledge/question_list.html' %}
+                </span>
 
-    </main>
-    {% include "django_knowledge/sidebar.html" %}
-  </div>
-</div>
-{% endblock knowledge_widgets %}
+            </div>
+
+      </div>
+      </div>
+      <div class="col-md-4 col-sm-3">
+      <div class="dk-sidebar">
+        <div class="inner">
+            {% include "django_knowledge/sidebar.html" %}
+        </div>
+      </div>
+      <div class="clear"></div>
+      </div>
+    </div>
+    </div>
+
+</section>
+{% endblock knowledge_inner %}

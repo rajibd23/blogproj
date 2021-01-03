@@ -48,14 +48,14 @@
                 <div class="views"><i class="icon-eye"></i>{{ post.view_count }}</div>
                 <div class="comments meta-last"><i class="icon-comment"></i>{{ post.comment_count }}</div>
                 <div class="comments"></div>
+
                 <form action="{% url 'likepost' pk=post.pk %}" method="post">
                   {% csrf_token %}
                   <button type="submit" name="post_id" value="{{ post.pk }}" class="btn btn-primary btn-sm">Like
                     <i class="fa fa-thumbs-up"></i>
-                    <span class="badge badge-light">{{ post.like_count }}</span>
+                    <span class="badge badge-light" >{{ post.like_count }}</span>
                   </button>
                 </form>
-
               </div>
             </div>
             <div class="post-body">
@@ -151,24 +151,4 @@
   </div>
 </div>
 
-<script type="text/javascript">
-    $('#like{{ post.id }}').click(function(){
-    var postid;
-    postid = $(this).attr("data-catid");
-    document.write(postid);
-    $.ajax(
-    {
-        type:"GET",
-        url: "/likepost/",
-        data:{
-                 post_id: postid
-        },
-        success: function( data )
-        {
-            $( '#like'+ postid ).remove();
-            $( '#message' ).text(data);
-        }
-     })
-});
-</script>
 {% endblock content %}
